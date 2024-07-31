@@ -4,7 +4,7 @@ import { useBudget } from "../hook/useBudget"
 export default function Form() {
 
     const [budget, setBudget] = useState(0)
-    const {dispacth} = useBudget()    
+    const {dispatch} = useBudget()    
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
        setBudget(+e.target.value )
@@ -17,7 +17,7 @@ export default function Form() {
     const handleSubmit =  (e:React.FormEvent<HTMLFormElement>)=>{
       e.preventDefault()
 
-      dispacth({type: 'add-budget', payload:{budget}})
+      dispatch({type: 'add-budget', payload:{budget}})
     }
     
 

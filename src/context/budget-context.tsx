@@ -5,7 +5,7 @@ import { budgetReducer, initialState,BudgetActions,BudgetState } from "../reduce
 
 type BudgetContextProps= {
     state:BudgetState
-    dispacth:Dispatch<BudgetActions>
+    dispatch:Dispatch<BudgetActions>
 }
 
 
@@ -17,11 +17,11 @@ type ProviderProps = {
 
 export const BudgetProvider = ({children}:ProviderProps)=>{
   
-  const [state,dispacth] = useReducer(budgetReducer,initialState)
+  const [state,dispatch] = useReducer(budgetReducer,initialState)
 
     return(
         <BudgetContext.Provider 
-        value={{state,dispacth}}>
+        value={{state,dispatch}}>
             {children}
         </BudgetContext.Provider>
 

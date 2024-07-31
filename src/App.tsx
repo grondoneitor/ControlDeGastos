@@ -2,6 +2,7 @@ import { useMemo } from "react"
 import Form from "./componenets/Form"
 import { useBudget } from "./hook/useBudget"
 import BudgetTracker from "./componenets/BudgetTracker"
+import ExpenseModal from "./componenets/ExpenseModal"
 function App() {
 
   const {state} = useBudget()
@@ -21,6 +22,17 @@ function App() {
     <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg mt-10 p-10">
           {IsValidState ? <BudgetTracker/> : <Form/>}
     </div>
+
+    {IsValidState && (
+       
+        <main className="max-w-3xl mx-auto py-10">
+          <ExpenseModal/>
+        </main>
+
+       
+       
+       )}
+   
     </>
   )
 }
