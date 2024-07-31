@@ -2,22 +2,95 @@ import { categories } from "../data/categories";
 import DatePicker from 'react-date-picker'
 import 'react-calendar/dist/Calendar.css'
 import 'react-date-picker/dist/DatePicker.css'
-type ValuePiece = Date | null
-
-type Value = ValuePiece | [ValuePiece, ValuePiece]
-
+import { useState } from "react";
+import { DraftExpense, Value } from "../types";
+import { useBudget } from "../hook/useBudget";
 
 
 export default function ExpenseForm() {
-  return (
+
+
+   const [expense ,setExpense] = useState<DraftExpense>({
+    amount:0,
+    expenseName:'',
+    category:'',
+    date: new Date})
+
+    const [error, setError] = useState<{ [key: string]: string }>({})
+    
+    const {dispatch} = useBudget()
+
+   const  HandleOnChange = (value :Value )=>{
+      setExpense({
+        ...expense, 
+        date:value})
+   }
+
+
+   const HanldeOnChangeString = (e:React.ChangeEvent<HTMLInputElement>|React.ChangeEvent<HTMLSelectElement>)=>{
+     const {name, value} = e.target
+
+     const IsAmount = ['amount'].includes(name)
+
+     setExpense({
+        ...expense,
+        [name]: IsAmount? +value : value
+     })
+
+
+
+     setError(error =>({
+        ...error,
+        [name]: '',
+     }))
+   }
+  
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>)=>{
+    e.preventDefault()
+     
+     let valid = true
+     const newError :{[key: string]: string} ={}
+
+    if(!expense.expenseName.trim()){
+       newError.expenseName = 'El nombre del gasto es obligatorio'
+       valid = false
+    }
+     if(expense.amount <= 0){
+        newError.amount = 'El monto debe ser mayor a 0'
+        valid = false
+    }
+    if(!expense.category){
+         newError.category = 'La categoria del gasto es obligatoria'
+         valid = false        
+    }
+    if(!expense.date){
+        newError.date = 'La fecha del gasto es obligatoria' 
+        valid = false
+    }
+
+    if(!valid){
+        setError(newError)
+    }else{
+        setError({})
+
+        dispatch({type:'add-expense', payload:{expense}})
+    }
+      
+  }
+  
+
+
+   return (
     <form action=""
-    className="space-y-5"> 
+    className="space-y-5"
+    onSubmit={handleSubmit}
+     > 
         <legend
         className="uppercase text-center font-black border-b-4 text-2xl border-blue-500 py-2">
             Nuevo Gasto
         </legend>
 
-
+ 
         <div 
         className="flex flex-col gap-2">
             <label 
@@ -31,7 +104,18 @@ export default function ExpenseForm() {
              id="expenseName"
              placeholder="Añade el nombe del gasto"
              className="p-2 bg-slate-100"
-             name="expenseName" />
+             name="expenseName"
+             value={expense.expenseName} 
+             onChange={HanldeOnChangeString}
+             
+             />
+             <p>
+             {error.expenseName && <h1 className="text-red-500 font-black text-center"> {error.expenseName}</h1>  }
+
+             </p>
+             
+             
+             
         </div>
 
         <div 
@@ -47,7 +131,13 @@ export default function ExpenseForm() {
              id="amount"
              placeholder="Añade la cantidad del gasto"
              className="p-2 bg-slate-100"
-             name="amount" />
+             name="amount"
+             value={expense.amount}
+             onChange={HanldeOnChangeString} />
+            
+            <p>
+                 {error.amount && <h1 className="text-red-500 font-black text-center"> {error.amount}</h1>  }
+            </p>
         </div>
 
         <div 
@@ -61,7 +151,9 @@ export default function ExpenseForm() {
              <select 
              id="category"
              className="p-2 bg-slate-100"
-             name="category">
+             name="category"
+             value={expense.category}
+             onChange={HanldeOnChangeString}>
 
                   <option value="">--Seleccione--</option>
                    {categories.map(cat => (
@@ -72,6 +164,9 @@ export default function ExpenseForm() {
                     </option>
                    ))}
              </select>
+            <p>
+                {error.category && <h1 className="text-red-500 font-black text-center"> {error.category}</h1>  }
+            </p>
         </div>
           
         <div 
@@ -84,10 +179,15 @@ export default function ExpenseForm() {
 
          <DatePicker
          className='bg-slate-100 p-2 border-0'
+         value={expense.date}
+         onChange={HandleOnChange}
          />
+        <p>
+            {error.date && <h1 className="text-red-500 font-black text-center"> {error.date}</h1>  }
+        </p>
         </div>
 
-          <input type="submit"
+          <input id="expenseName" type="submit"
           className="bg-blue-600 cursor-pointer w-full p-2 text-white uppercase font-bold rounded-lg"
           value={"Registrar Gasto"} />
 
