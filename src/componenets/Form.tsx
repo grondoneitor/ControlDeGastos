@@ -23,7 +23,7 @@ export default function Form() {
 
   return (
     <form action=""
-    className='space-y-5' 
+    className='space-y-5 ' 
     onSubmit={handleSubmit}>
           
         <div className='flex flex-col space-y-5'>

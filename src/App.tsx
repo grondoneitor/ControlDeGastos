@@ -3,6 +3,7 @@ import Form from "./componenets/Form"
 import { useBudget } from "./hook/useBudget"
 import BudgetTracker from "./componenets/BudgetTracker"
 import ExpenseModal from "./componenets/ExpenseModal"
+import ExpenseList from "./componenets/ExpenseList"
 function App() {
 
   const {state} = useBudget()
@@ -26,6 +27,7 @@ function App() {
     {IsValidState && (
        
         <main className="max-w-3xl mx-auto py-10">
+          <ExpenseList/>
           <ExpenseModal/>
         </main>
 

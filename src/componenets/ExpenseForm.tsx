@@ -82,7 +82,7 @@ export default function ExpenseForm() {
 
    return (
     <form action=""
-    className="space-y-5"
+    className="space-y-5 "
     onSubmit={handleSubmit}
      > 
         <legend

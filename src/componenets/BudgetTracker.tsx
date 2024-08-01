@@ -1,5 +1,8 @@
 import AmountDisplay from "./AmountDisplay"
+import { useBudget } from "../hook/useBudget"
 export default function BudgetTracker() {
+
+  const{state} = useBudget()
   return (
 
    <>
@@ -19,7 +22,7 @@ export default function BudgetTracker() {
 
             <AmountDisplay
               label="presupuesto"
-              amount={300} />
+              amount={state.budget} />
        
             <AmountDisplay
               label="disponible"
