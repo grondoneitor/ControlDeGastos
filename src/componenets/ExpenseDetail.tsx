@@ -1,17 +1,17 @@
 import { Expense } from '../types'
 import {
   LeadingActions,
-  SwipeAction,
   SwipeableList,
   SwipeableListItem,
+  SwipeAction,
   TrailingActions
-} from 'react-swipeable-list'
+} from 'react-swipeable-list';
 import { formatDate } from '../helpers'
 import AmountDisplay from './AmountDisplay'
 import { useMemo } from 'react'
 import { categories } from '../data/categories'
-import 'react-swipeable-list/dist/style.css'
-
+import 'react-swipeable-list/dist/styles.css';
+import { useBudget } from '../hook/useBudget';
 type ExpenseDetailProp = {
     expense: Expense
 }
@@ -20,13 +20,37 @@ export default function ExpenseDetail({expense}:ExpenseDetailProp) {
 
 const categoria = useMemo(()=>  categories.filter((cat)=> cat.id === expense.category)[0] ,[expense])
 
-const {id,name,icon} = categoria
+const {name,icon} = categoria
+const {dispatch} = useBudget()
+
+const leadingActions = () => (
+  <LeadingActions>
+    <SwipeAction onClick={() =>dispatch({type: 'editing-expense',payload:{id: expense.id}})}>
+      Actualizar
+    </SwipeAction>
+  </LeadingActions>
+);
+const trailingActions = () => (
+  <TrailingActions>
+    <SwipeAction
+      destructive={true}
+      onClick={() =>dispatch({type:'remove-expense', payload:{id:expense.id}})}
+    >
+      Delete
+    </SwipeAction>
+  </TrailingActions>
+);
+
+
 
   return (
-  <SwipeableList>
-    <SwipeableListItem
-      maxSwipe={30}
-      >
+   <SwipeableList       
+    >
+     <SwipeableListItem
+       maxSwipe={1}
+        leadingActions={leadingActions()}
+         trailingActions={trailingActions()}
+       >
         <div className='bg-slate-100 shadow-lg p-10 w-full border-b border-gray-200 flex items-center gap-5 my-5'>
           <div className=''>
               <img src={`../../public/icono_${icon}.svg`} alt="" 
@@ -49,7 +73,7 @@ const {id,name,icon} = categoria
               amount={expense.amount}
           />
         </div>
-    </SwipeableListItem>
-  </SwipeableList>
+     </SwipeableListItem>
+   </SwipeableList>
   )
 }

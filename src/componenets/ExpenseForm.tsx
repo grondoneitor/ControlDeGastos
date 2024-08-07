@@ -2,10 +2,10 @@ import { categories } from "../data/categories";
 import DatePicker from 'react-date-picker'
 import 'react-calendar/dist/Calendar.css'
 import 'react-date-picker/dist/DatePicker.css'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DraftExpense, Value } from "../types";
 import { useBudget } from "../hook/useBudget";
-
+import type { Expense } from "../types";
 
 export default function ExpenseForm() {
 
@@ -18,7 +18,7 @@ export default function ExpenseForm() {
 
     const [error, setError] = useState<{ [key: string]: string }>({})
     
-    const {dispatch} = useBudget()
+    const {state,dispatch} = useBudget()
 
    const  HandleOnChange = (value :Value )=>{
       setExpense({
@@ -72,13 +72,22 @@ export default function ExpenseForm() {
         setError(newError)
     }else{
         setError({})
-
+       if(state.editingId){
+         dispatch({type:'update-expense',payload:{expense:{id:state.editingId, ...expense}}})
+       }else{
         dispatch({type:'add-expense', payload:{expense}})
+       }
     }
       
   }
   
-
+useEffect(()=>{
+   if(state.editingId){
+    const porId = state.expenses.filter((exp:Expense) => exp.id === state.editingId)[0]
+    setExpense(porId)
+   } 
+    
+},[state.editingId])
 
    return (
     <form action=""
@@ -105,7 +114,7 @@ export default function ExpenseForm() {
              placeholder="Añade el nombe del gasto"
              className="p-2 bg-slate-100"
              name="expenseName"
-             value={expense.expenseName} 
+             value={ expense.expenseName} 
              onChange={HanldeOnChangeString}
              
              />

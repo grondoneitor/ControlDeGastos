@@ -10,7 +10,7 @@ export type Expense = {
     date:Value
 }
 
-
+  
 export type DraftExpense = Omit<Expense, 'id'>
 
 export type Category =  {

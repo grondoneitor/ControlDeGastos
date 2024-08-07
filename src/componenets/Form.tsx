@@ -22,7 +22,8 @@ export default function Form() {
     
 
   return (
-    <form action=""
+   
+    <form 
     className='space-y-5 ' 
     onSubmit={handleSubmit}>
           
@@ -50,6 +51,9 @@ export default function Form() {
          disabled={IsValid}
          />
   
+
+
+     
     </form>
 
 )}
