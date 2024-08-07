@@ -96,7 +96,7 @@ useEffect(()=>{
      > 
         <legend
         className="uppercase text-center font-black border-b-4 text-2xl border-blue-500 py-2">
-            Nuevo Gasto
+           {state.editingId ? "Editar Gasto" :"Nuevo Gasto"}
         </legend>
 
  
@@ -198,7 +198,7 @@ useEffect(()=>{
 
           <input id="expenseName" type="submit"
           className="bg-blue-600 cursor-pointer w-full p-2 text-white uppercase font-bold rounded-lg"
-          value={"Registrar Gasto"} />
+          value= {state.editingId ? "Editar Gasto" :"Registrar Gasto"} />
 
     </form>
   )

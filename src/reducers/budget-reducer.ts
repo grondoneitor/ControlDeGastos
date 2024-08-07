@@ -1,4 +1,4 @@
-import {v4 as uuidV4} from 'uuid'
+import { v4 as uuidV4} from 'uuid'
 import { DraftExpense,Expense } from "../types"
 
 export type BudgetActions= 
@@ -18,10 +18,22 @@ export type BudgetState = {
     editingId: Expense['id']
 }
 
+const InitialBudget =() : number=>
+{
+    const localStorageBudget = localStorage.getItem('budget')
+    return localStorageBudget ? +localStorageBudget : 0
+
+}
+
+const InitialBudgetExpenses = (): Expense[]=>{
+    const localStorageExpenses = localStorage.getItem('expenses')
+    return localStorageExpenses ? JSON.parse(localStorageExpenses) : []
+}
+
 export const initialState : BudgetState = {
-    budget:0,
+    budget:InitialBudget(),
     modal:false,
-    expenses: [],
+    expenses: InitialBudgetExpenses(),
     editingId: ''
 }
 

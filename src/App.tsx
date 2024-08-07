@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import Form from "./componenets/Form"
 import { useBudget } from "./hook/useBudget"
 import BudgetTracker from "./componenets/BudgetTracker"
@@ -11,7 +11,12 @@ function App() {
   const IsValidState = useMemo(()=> state.budget > 0 ,[state.budget])
    console.log(IsValidState)
 
-
+useEffect(()=>{
+    
+  localStorage.setItem('budget', state.budget.toString())
+  localStorage.setItem('expenses', JSON.stringify(state.expenses))
+},
+[state])
   return (
     <>
     <header className="bg-blue-800 py-8 max-h-72">
