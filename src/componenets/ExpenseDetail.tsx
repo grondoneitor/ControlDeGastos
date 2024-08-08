@@ -36,7 +36,7 @@ const trailingActions = () => (
       destructive={true}
       onClick={() =>dispatch({type:'remove-expense', payload:{id:expense.id}})}
     >
-      Delete
+      Eliminar
     </SwipeAction>
   </TrailingActions>
 );
@@ -48,10 +48,11 @@ const trailingActions = () => (
     >
      <SwipeableListItem
        maxSwipe={1}
+       className='my-3'
         leadingActions={leadingActions()}
          trailingActions={trailingActions()}
        >
-        <div className='bg-slate-100 shadow-lg p-10 w-full border-b border-gray-200 flex items-center gap-5 my-5'>
+        <div className='bg-white shadow-lg rounded-lg p-10 w-full h-full border-b border-gray-200 flex items-center gap-3 '>
           <div className=''>
               <img src={`../../public/icono_${icon}.svg`} alt="" 
                    className='w-20'
