@@ -38,7 +38,7 @@ export const initialState : BudgetState = {
     modal:false,
     expenses: InitialBudgetExpenses(),
     editingId: '',
-    currentCategory: ''
+    currentCategory: ""
 }
 
 const createExpense =(draftExpnse:DraftExpense) : Expense=>{
@@ -50,7 +50,7 @@ const createExpense =(draftExpnse:DraftExpense) : Expense=>{
 
 }
 
-export const budgetReducer= (
+export const budgetReducer: React.Reducer<BudgetState, BudgetActions>  = (
     state: BudgetState = initialState,
     action: BudgetActions
 
@@ -124,7 +124,8 @@ export const budgetReducer= (
          budget:0,
         modal:false,
         expenses: [],
-        editingId: ''
+        editingId: '',
+        currentCategory: ''
     }
   }
    if(action.type ==='filtrar-by-category'){
@@ -132,6 +133,8 @@ export const budgetReducer= (
       return{
         ...state,
         currentCategory:action.paylod.id
+        
+
       }
    }
    
