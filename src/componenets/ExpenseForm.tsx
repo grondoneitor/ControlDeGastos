@@ -44,7 +44,7 @@ export default function ExpenseForm() {
         [name]: '',
      }))
    }
-  
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault()
      
@@ -78,7 +78,7 @@ export default function ExpenseForm() {
         dispatch({type:'add-expense', payload:{expense}})
        }
     }
-      
+    
   }
   
 useEffect(()=>{
@@ -88,6 +88,12 @@ useEffect(()=>{
    } 
     
 },[state.editingId])
+
+
+    
+
+
+
 
    return (
     <form action=""

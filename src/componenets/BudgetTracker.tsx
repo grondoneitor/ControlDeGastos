@@ -1,8 +1,14 @@
 import AmountDisplay from "./AmountDisplay"
 import { useBudget } from "../hook/useBudget"
+import { useMemo } from "react"
+
 export default function BudgetTracker() {
 
-  const{state} = useBudget()
+  const{state, dispatch} = useBudget()
+  const total = useMemo(()=> state.expenses.reduce((acumulado,cur) => acumulado + cur.amount, 0),[state])
+   
+
+
   return (
 
    <>
@@ -16,7 +22,9 @@ export default function BudgetTracker() {
         className="flex flex-col justify-center items-center gap-8">
            <button
            type="button"
-           className="bg-pink-600 w-full p-2 text-white uppercase font-bold rounded-lg">
+           className="bg-pink-600 w-full p-2 text-white uppercase font-bold rounded-lg"
+           onClick={()=>dispatch({type: 'remove-budget'})}
+           >
               Resetear App
            </button>
 
@@ -26,11 +34,11 @@ export default function BudgetTracker() {
        
             <AmountDisplay
               label="disponible"
-              amount={200} />
+              amount={state.budget- total} />
    
             <AmountDisplay
               label="gastado"
-              amount={100} />
+              amount={total} />
      
 
         </div>

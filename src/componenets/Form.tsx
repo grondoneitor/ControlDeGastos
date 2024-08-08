@@ -4,19 +4,23 @@ import { useBudget } from "../hook/useBudget"
 export default function Form() {
 
     const [budget, setBudget] = useState(0)
-    const {dispatch} = useBudget()    
+    const {state,dispatch} = useBudget()    
   
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>)=>{
        setBudget(+e.target.value )
     }
-
+    const sumandoGastos= ()=>{
+    
+      const total = state.expenses.reduce((acumulado,cur) => acumulado + cur.amount, 0)
+      console.log(total)
+     }
     const IsValid = useMemo(()=>{
      return isNaN(budget) || budget <= 0
     },[budget])
 
     const handleSubmit =  (e:React.FormEvent<HTMLFormElement>)=>{
       e.preventDefault()
-
+      
       dispatch({type: 'add-budget', payload:{budget}})
     }
     
