@@ -1,33 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
+import { useEffect, useMemo } from "react"
+import Form from "./componenets/Form"
+import { useBudget } from "./hook/useBudget"
+import BudgetTracker from "./componenets/BudgetTracker"
+import ExpenseModal from "./componenets/ExpenseModal"
+import ExpenseList from "./componenets/ExpenseList"
+import FilterByCategory from "./componenets/FilterByCategory"
 function App() {
-  const [count, setCount] = useState(0)
 
+  const {state} = useBudget()
+
+  const IsValidState = useMemo(()=> state.budget > 0 ,[state.budget])
+   console.log(IsValidState)
+
+useEffect(()=>{
+    
+  localStorage.setItem('budget', state.budget.toString())
+  localStorage.setItem('expenses', JSON.stringify(state.expenses))
+},
+[state])
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <header className="bg-blue-800 py-8 max-h-72">
+       <h1 className="uppercase text-white font-black text-center text-4xl">
+        Planificador de gastos
+       </h1>
+    </header>
+    
+    <div className="max-w-3xl mx-auto bg-white shadow-lg rounded-lg mt-10 p-10">
+          {IsValidState ? <BudgetTracker/> : <Form/>}
+    </div>
+
+    {IsValidState && (
+       
+        <main className="max-w-3xl mx-auto py-10">
+          <FilterByCategory/>
+          <ExpenseList/>
+          <ExpenseModal/>
+        </main>
+
+       
+       
+       )}
+   
     </>
   )
 }

@@ -1,0 +1,22 @@
+import { formatCurrency } from "../helpers"
+
+type AmountDisplayProps = {
+  label?: string
+  amount: number
+}
+
+export default function AmountDisplay({label, amount}:AmountDisplayProps) {
+  return (
+    <div>
+      
+        <p className="text-2xl text-blue-600  font-bold">
+            {label && `${label }: `} 
+            {amount<0 ?
+            <span className="font-black text-red-500"> {formatCurrency(amount)}</span> :
+            <span className="font-black text-black"> {formatCurrency(amount)}</span>
+            }
+            
+        </p>
+    </div>
+  )
+}
