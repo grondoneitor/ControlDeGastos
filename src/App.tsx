@@ -4,6 +4,7 @@ import { useBudget } from "./hook/useBudget"
 import BudgetTracker from "./componenets/BudgetTracker"
 import ExpenseModal from "./componenets/ExpenseModal"
 import ExpenseList from "./componenets/ExpenseList"
+import FilterByCategory from "./componenets/FilterByCategory"
 function App() {
 
   const {state} = useBudget()
@@ -32,6 +33,7 @@ useEffect(()=>{
     {IsValidState && (
        
         <main className="max-w-3xl mx-auto py-10">
+          <FilterByCategory/>
           <ExpenseList/>
           <ExpenseModal/>
         </main>
